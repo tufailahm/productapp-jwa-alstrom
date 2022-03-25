@@ -5,6 +5,9 @@ import java.util.Arrays;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+
+import com.training.pms.utility.Demo;
 
 @SpringBootApplication
 public class ProductappJwaAlstromApplication {
@@ -19,5 +22,9 @@ public class ProductappJwaAlstromApplication {
 			System.out.println(temp);
 		}
 	}
+	
+	/*
+	 * @Bean public Demo getDemo() { return new Demo(); }
+	 */
 
 }
