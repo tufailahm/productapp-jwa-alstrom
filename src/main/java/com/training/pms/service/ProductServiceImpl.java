@@ -3,6 +3,9 @@ package com.training.pms.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,23 +13,26 @@ import com.training.pms.model.Product;
 import com.training.pms.repository.ProductRepository;
 
 @Service		//spring will create a bean and treats this as service
+@Transactional
 public class ProductServiceImpl implements ProductService{
 
 	@Autowired
 	ProductRepository productRepository;		//??
 	
 	@Override
+	@Transactional
 	public String addProduct(Product product) {
+		System.out.println("Adding products");
 		if(product.getPrice() < 0  || product.getQuantityOnHand() < 0)
 			return "Product could not be saved because either price or qoh is negative";
 		else
 		{
 			productRepository.save(product);
 			return "Product saved successfully!!";
-
 		}
 	}
 	@Override
+	@Transactional
 	public String updateProduct(int productId, Product product) {
 		if(product.getPrice() < 0  || product.getQuantityOnHand() < 0)
 			return "Product could not be updated because either price or qoh is negative";
@@ -45,6 +51,8 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public List<Product> getProducts() {
+		System.out.println("Getting all products");
+
 		return (List<Product>) productRepository.findAll();
 	}
 
@@ -78,13 +86,13 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public List<Product> getProductByName(String productName) {
 		// TODO Auto-generated method stub
-		return null;
+		return productRepository.findByProductName(productName);
 	}
 
 	@Override
 	public List<Product> getProductByPriceRange(int lowerPrice, int upperPrice) {
 		// TODO Auto-generated method stub
-		return null;
+		return productRepository.findByPriceBetween(lowerPrice, upperPrice);
 	}
 
 }

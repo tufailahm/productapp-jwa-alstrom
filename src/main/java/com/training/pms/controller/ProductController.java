@@ -108,12 +108,7 @@ public class ProductController {
 	
 	
 	
-	
-	@GetMapping("filterProductByPrice/{lowerPrice}/{upperPrice}")
-	public String filterProductByPrice(@PathVariable("lowerPrice") int lowerPrice,
-			@PathVariable("upperPrice") int upperPrice) { // localhost:5050/product/Bottle -GET
-		return "Returning all the products between :" + lowerPrice + " and " + upperPrice;
-	}
+
 
 	@DeleteMapping
 	public String deleteProduct() { // localhost:5050/product -DELETE
@@ -133,10 +128,31 @@ public class ProductController {
 		return "Delete a product by its name : " + productName;
 	}
 
+	//localhost:5050/product/searchProductByName/Lakme
 	@GetMapping("searchProductByName/{productName}")
-	public String getProductByProductName(@PathVariable("productName") String pname) { // localhost:5050/product/Bottle
-																						// -GET
-		return "Getting a single product by productName " + pname;
+	public ResponseEntity<List<Product>> getProductByProductName(@PathVariable("productName") String pname) { // localhost:5050/product/Bottle
+		List<Product> result = productService.getProductByName(pname);
+		ResponseEntity<List<Product>> responseEntity = null;
+		if (result.size() == 0) {
+			responseEntity = new ResponseEntity<List<Product>>(result, HttpStatus.NO_CONTENT);
+		} else {
+			responseEntity = new ResponseEntity<List<Product>>(result, HttpStatus.OK);
+		}
+		return responseEntity;
+	}
+	
+	//localhost:5050/product/filterProductByPrice/100/200
+	@GetMapping("filterProductByPrice/{lowerPrice}/{upperPrice}")
+	public ResponseEntity<List<Product>> filterProductByPrice(@PathVariable("lowerPrice") int lowerPrice,
+			@PathVariable("upperPrice") int upperPrice) { // localhost:5050/product/Bottle -GET
+		List<Product> result = productService.getProductByPriceRange(lowerPrice,upperPrice);
+		ResponseEntity<List<Product>> responseEntity = null;
+		if (result.size() == 0) {
+			responseEntity = new ResponseEntity<List<Product>>(result, HttpStatus.NO_CONTENT);
+		} else {
+			responseEntity = new ResponseEntity<List<Product>>(result, HttpStatus.OK);
+		}
+		return responseEntity;
 	}
 
 }

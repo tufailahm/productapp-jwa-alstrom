@@ -18,9 +18,9 @@ public class ProductappJwaAlstromApplication {
 
 		Arrays.sort(allBeans);
 
-		for (String temp : allBeans) {
-			System.out.println(temp);
-		}
+		/*
+		 * for (String temp : allBeans) { System.out.println(temp); }
+		 */
 	}
 	
 	/*
